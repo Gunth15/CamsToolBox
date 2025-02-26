@@ -3,29 +3,15 @@
 #include "queue.h"
 #include <assert.h>
 
-void InitQueue(Queue *q, int capacity) {
-  size_t data[capacity];
-  q->capacity = capacity;
-  q->data = data;
-  q->head = &data[0];
+int dequeue(Queue *q) {
+  assert((q->head > -1) && "BOUNDS ERROR: indexing after zero");
+  return q->data[q->head--];
 }
 
-size_t dequeue(Queue *q) {
-  int head_locat = (q->head - q->data);
-  assert(head_locat >= 0 && "Error: Tried to index invalid position that is "
-                            "less than 0. Did you peek?");
-  return *(q->head--);
+void enqueue(Queue *q, int item) {
+  assert((q->head < q->capacity) && "BOUNDS ERROR: Past capacity");
+  q->data[++q->head] = item;
 }
-
-void enqueue(Queue *q, size_t item) {
-  int head_locat = (q->head - q->data);
-  if (head_locat != 0) {
-    ++q->head;
-  }
-  assert(head_locat < q->capacity &&
-         "Error: Tried to index invalid position that is greater than "
-         "capacity. Did you peek first?");
-  *(q->head) = item;
-}
-
-size_t peek(Queue *q) { return *(q->head); }
+int peek(Queue *q) { return q->data[q->head]; }
+bool isEmpty(Queue *q) { return q->head == -1; }
+bool isFull(Queue *q) { return q->head == q->capacity; }
