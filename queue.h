@@ -7,6 +7,7 @@ typedef struct {
   size_t *data;
 } Queue;
 
+void InitQueue(Queue *q, int capacity); // Initializes queue with no data
 size_t dequeue(Queue *q); // Dequeue from stack, Crashes program if you try to
                           // dequeue when there is no data
 void enqueue(Queue *q, size_t item); // Enqueue to stack. Crashes if you try to
