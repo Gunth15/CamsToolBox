@@ -7,12 +7,13 @@
 #define RED "\033[31m"
 
 int main() {
-  int data[9999];
+  int data[10];
 
-  Queue tq = {.capacity = 9999, .data = data, .head = -1};
+  Queue tq = {.capacity = 10, .data = data, .head = -1, .tail = -1};
 
-  // Fill queue
-  for (int i = 0; i < 10000; ++i) {
+  // LINEAR TEST
+  //  Fill queue
+  for (int i = 0; i < 10; ++i) {
     enqueue(&tq, i);
     printf("Added %d to queue\n", i);
   }
@@ -20,11 +21,24 @@ int main() {
   assert(isFull(&tq) && "List was not full");
 
   // Empty queue
-  for (int i = 9999; i >= 0; --i) {
+  for (int i = 0; i < 10; ++i) {
     int d = dequeue(&tq);
     printf("The output of the queue is %d\n", d);
-    assert(i == d && RED "Not expected output" WHITE);
+    assert(i == d && "Not expected output");
   }
-  assert(isEmpty(&tq) && RED "List was not empty" WHITE);
+  assert(isEmpty(&tq) && "List was not empty");
+
+  for (int i = 0; i < 10; ++i) {
+    if (i < 5) {
+      enqueue(&tq, i);
+      printf("Added %d to queue\n", i);
+    } else {
+      int d = dequeue(&tq);
+      printf("The output of the queue is %d\n", d);
+      assert((i - 5) == d && "Not expected output");
+    }
+  }
+
+  assert(isEmpty(&tq) && "List was not empty");
   printf(GREEN "Test Succesfully Completed\n" WHITE);
 }

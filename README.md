@@ -9,8 +9,11 @@ To use this library(or a portion of the lib), copy and paste into your project
 ### Basic Data Structures
 
 - queue.h
-  - Include static Queue
+
+  - Include Fixed Size Queue
   - Dynamic Queue(COMING SOON)
+
+- ring buffer(The underlying implementation of the fixed queue)
 
 ### Memory Management Models(COMING SOON HOPEFULLY)
 
