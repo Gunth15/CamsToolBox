@@ -1,13 +1,10 @@
-#include "queue.h"
+#include "dyn_queue.h"
 #include <assert.h>
 #include <stdio.h>
 
 #define GREEN "\033[32m"
 #define WHITE "\033[37m"
 #define RED "\033[31m"
-
-
-DEF_STATIC_QUEUE(int,Queue, 10);
 
 int main() {
   Queue tq;
@@ -20,7 +17,7 @@ int main() {
     printf("Added %d to queue\n", i);
   }
 
-  assert(Queue_isFull(&tq) && "List was not full");
+  assert(!Queue_isEmpty(&tq) && "List was not full");
 
   // Empty queue
   for (int i = 0; i < 10; ++i) {

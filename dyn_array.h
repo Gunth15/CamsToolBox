@@ -6,8 +6,14 @@ typedef struct {
   size_t capacity;
   size_t elem_size;
 } Dyn_Arr_Header;
+// assumes ptr is to the first element in the list
 #define DynArrayHeader(ptr) ((Dyn_Arr_Header *)(ptr) - 1)
 #define DynArrayLen(ptr) DynArrayHeader(ptr)->len
+// WARNING: do not change length of array while using(should be used in fixed
+// manner)
+#define DynArrayForEach(ptr, i, value_ptr)                                     \
+  for (Dyn_Arr_Header *_header = DynArrayHeader(ptr); _header; _header = NULL) \
+    for (size_t i = 0; i < _header->len && (value_ptr = ptr + i, 1); ++i)
 #define DynArrayTry(statment)                                                  \
   if (!statment)                                                               \
     return 0;
@@ -54,10 +60,12 @@ static inline int dyn_array_append(void **ptr, void *arr, size_t len) {
 static inline int dyn_array_push(void **ptr, void *data) {
   return dyn_array_append(ptr, data, 1);
 }
-// return a pointer to popped data cannot gurantee liftime of popped value, returns null on len 0
+// return a pointer to popped data cannot gurantee liftime of popped
+// value, returns null on len 0
 static inline void *dyn_array_pop(void *ptr) {
   Dyn_Arr_Header *header = DynArrayHeader(ptr);
-  if (header->len == 0) return NULL;
+  if (header->len == 0)
+    return NULL;
   void *value = (char *)ptr + (header->elem_size * (header->len - 1));
   header->len -= 1;
   return value;
